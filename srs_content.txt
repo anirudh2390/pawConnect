@@ -1,0 +1,260 @@
+--- Page 1 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+ 
+UCC-MCA    1                                  
+  
+MINI PROJECT REPORT  
+MCA 3RD SEMESTER (2025 BATCH)  
+PAWCONNECT  
+An AI-Powered Centralized Pet Adoption 
+Platform  
+  
+SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+SUBMITTED BY:  
+  
+1. ADEL ABDULLA (Roll No: 2), Batch B  
+2. ANIRUDH SUGATHAN (Roll No: 18), Batch B  
+PROJECT GUIDE:  
+Miss. SHERNA MOHAN  
+School of Computer Applications  
+  
+1. INTRODUCTION 
+PawConnect is a next-generation web application designed to fix the communication and 
+management issues currently plaguing pet adoption. In today’s cities, the process is often chaotic 
+and scattered and lacks the trust needed for safe adoptions. PawConnect creates a centralized, 
+secure hub for pet owners, shelters, and potential adopters. Using modern technology like 
+React/Flutter for the frontend and a solid Spring Boot backend, the platform provides a 
+--- Page 2 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+  
+ 
+UCC-MCA    2                                  
+streamlined experience. This document details the functional needs, system boundaries, and 
+design choices that will guide the development of the PawConnect project.  
+2.  PROBLEM STATEMENT  
+Right now, pet adoption happens across a messy mix of animal shelters, rescue groups, social 
+media pages, classified sites, and various standalone apps. This current landscape is disjointed 
+and lacks transparency. Adopters struggle to find healthy, suitable pets in their area, while 
+shelters and owners find it hard to connect with serious, reliable adopters.  
+Because there is no central hub, users have to jump between different networks, rely on insecure 
+communication like personal calls or emails, and verify health and authenticity on their own. 
+This lack of standards leads to fake listings, duplicate posts, and poor communication, which 
+unfortunately causes animals to stay in shelters longer and contributes to pet abandonment. There 
+is an urgent need for a trusted, standardized, and modern tech solution that can manage the entire 
+adoption process from start to finish.  
+3.  RELEV ANCE OF THE PROJECT  
+PawConnect is an all-in-one web application meant to simplify and automate the entire adoption 
+cycle. The system includes user profile management, verified listing workflows, AI-powered 
+features, and real-time transaction tools. Key technical features include JWT-based security for 
+different roles, organized listing tools, interactive interfaces, and strong admin controls.  
+To improve matching, the system uses intelligent recommendation engines based on user 
+preferences, automated computer vision to identify breeds from photos, and ML-based rules to 
+detect fake listings. It also includes secure, built-in instant messaging so users can avoid using 
+insecure personal contact channels.  
+Out of Scope: The project does not include third-party payment processing (adoptions remain 
+non-commercial), physical animal transport or logistics, integration with state-run veterinary 
+databases, or migration of historical data from existing shelter systems.  
+4.  OBJECTIVES  
+The main goal of PawConnect is to build a secure, intelligent digital marketplace that increases 
+successful adoptions and supports animal welfare. Our specific goals are:  
+- Centralize Adoption: Create one unified platform for owners, shelters, and adopters to 
+stop the current fragmentation.  
+- Build Trust: Prevent fraud through automated AI checks and central administrative 
+vetting.  
+--- Page 3 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+  
+ 
+UCC-MCA    3                                  
+- Streamline Communication: Include an instant messaging system with chat history to 
+speed up the adoption process.  
+- Data-Driven Matching: Use user profile tracking and preferences to recommend the 
+most compatible pets to adopters.  
+5. SYSTEM ANALYSIS  
+Introduction  
+System analysis involves a detailed look at how the current adoption process works, identifying 
+its flaws, and explaining how the proposed PawConnect application fixes them.  
+6. EXISTING SYSTEM  
+Currently, the ecosystem is fragmented. Shelters often rely on paper records or local 
+spreadsheets. Adoption listings are usually just random posts on platforms like Facebook, 
+Instagram, or broad classified sites (e.g., OLX, Craigslist). Adopters are left to search through 
+this mess, manually tracking updates, verifying information, and communicating through 
+unmonitored personal channels.  
+7. LIMITATIONS OF EXISTING SYSTEM  
+Current methods have several major operational weaknesses:  
+1. Extreme Fragmentation: There is no central database, forcing users to repeatedly check 
+dozens of unrelated websites and groups.  
+2. No Vetting: Anyone can post a listing, creating a dangerous space for scams, stolen pets, 
+and financial extortion.  
+3. Inaccurate Data: Medical histories, vaccination records, and ages are often missing, 
+incomplete, or completely unverified.  
+4. Poor Communication: Relying on generic emails or personal phone calls causes delays, 
+often leading to missed opportunities.  
+5. No Smart Matching: Platforms only provide static, chronologically sorted lists, making 
+adopters sift through thousands of irrelevant records.  
+8. PROPOSED SYSTEM 
+PawConnect is a cloud-ready web application designed to bring all adoption stakeholders 
+together. It uses a single-user architecture with admin overrides, allowing verified users to easily 
+act as both adopters and listers—similar to modern peer-to-peer marketplaces.  
+--- Page 4 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+  
+ 
+UCC-MCA    4                                  
+The system uses a Spring Boot service grid connected to a MySQL database, paired with a 
+modern, responsive frontend dashboard. PawConnect differentiates itself by embedding AI 
+directly into the workflow: computer vision automatically identifies breeds from images, a 
+classification layer flags potential fraud, and an intelligent engine personalizes dashboards based 
+on user criteria.  
+9. ADV ANTAGES OF PROPOSED SYSTEM  
+PawConnect offers clear improvements over the legacy model:  
+- Automated Trust: Double-layer protection using AI fraud detection and final manual 
+admin review ensures listings are legitimate.  
+- Smart Breed Identification: Image processing algorithms automatically classify breeds 
+upon upload, reducing manual entry errors.  
+- Secure Interaction: Integrated real-time messaging keeps all communication safe and 
+organized.  
+- Transparency: Structured tracking for vaccinations, vet checks, and behavioral history 
+ensures complete data.  
+- Unified Account: Users can adopt or list animals from a single profile without switching 
+accounts.  
+10. FEASIBILITY STUDY  
+We conducted a feasibility study across technical, operational, and economic criteria to ensure 
+this project is realistic for the MCA mini-project framework.  
+10.1 Technical Feasibility  
+ We assessed the hardware, software, and development tools required for the project. The 
+application uses the React framework for the frontend, Node.js with Express.js for the backend, 
+and MongoDB as the database. These technologies are open-source, widely adopted, well-
+documented, and supported by a large developer community, making them reliable for building a 
+scalable web application. AI-based features, such as pet breed recognition and personalized pet 
+recommendations, will be developed using lightweight Python-based machine learning 
+services that can integrate seamlessly with the Node.js backend through APIs. This technology 
+stack is suitable for the project's scope and can be implemented effectively within the available 
+time and resources. 
+--- Page 5 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+  
+ 
+UCC-MCA    5                                  
+10.2 Operational Feasibility  
+We evaluated how the system fits into daily routines. PawConnect uses a dashboard style 
+familiar to users of sites like OLX, making it intuitive to navigate. Administrators have a clear 
+control panel to monitor reports and verify listings. No complex training is needed, which 
+ensures a smooth rollout.  
+10.3 Economic Feasibility  
+We analyzed the costs and benefits of developing PawConnect. The project is built entirely using 
+open-source technologies, including React, Node.js, Express.js, MongoDB, and Python for 
+AI-based features. Since these technologies are freely available, there are no software licensing 
+costs. Development is carried out using existing hardware and freely available development 
+tools, which minimizes overall expenses. The system's benefits, such as simplifying the pet 
+adoption process, reducing manual effort, improving user experience, and assisting shelters 
+through AI-powered features, outweigh the development costs, making the project economically 
+feasible. 
+11. SOFTWARE ENGINEERING PARADIGM APPLIED  
+We are following an Agile framework, specifically a mix of Scrum and Iterative Prototyping. We 
+chose this over a rigid Waterfall model because the AI features (like breed recognition) require 
+ongoing testing and adjustment.  
+Development is split into three sprints:  
+1. Sprint 1: Data schemas, user authentication, and basic CRUD features for pet listings.  
+2. Sprint 2: Adoption workflow engine, messaging system, and admin interface.  
+3. Sprint 3: AI model integration, search optimization, and final integration testing. This 
+approach keeps core functions stable while allowing complex modules to evolve based 
+on feedback.  
+12. SYSTEM ENVIRONMENT  
+Introduction  
+This section defines the hardware and software required to build, host, and run the PawConnect 
+application.  
+12.1 Software Requirements Specification  
+• Client OS: Modern browsers (Chrome 100+, Firefox, Safari)  
+• Server OS: Linux (Ubuntu 20.04+) or Windows 10/11  
+--- Page 6 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+  
+ 
+UCC-MCA    6                                  
+• Database: MySQL Community Server 8.0+  
+• Backend: Java JDK 17, Spring Boot 3.x with Spring Security  
+• Frontend: React JS or Flutter Web SDK  
+12.2 Hardware Requirements Specification  
+• Workstation: Intel i5 / AMD Ryzen 5 (Minimum 4 Cores)  
+• Memory: Minimum 8 GB RAM (16 GB suggested for local services)  
+• Storage: Minimum 20 GB free space  
+• Deployment: Shared cloud instance (e.g., AWS EC2 t3.medium or equivalent)  
+13. USER CHARACTERISTICS  
+The user base is split into two primary groups:  
+1. General User (Adopters, Owners, Shelters): People looking to adopt, give up a pet for 
+adoption, or manage shelter listings. They need basic web literacy. The app provides a unified 
+dashboard for browsing, listing, requesting, and chatting without requiring technical expertise.  
+2. Platform Administrator (Admin): Operators responsible for platform security and trust. 
+They monitor dashboards, review AI fraud alerts, verify credentials, and handle reports. They 
+require a stronger technical background and training in platform policies.  
+14.  FUNCTIONAL REQUIREMENTS  
+This section outlines the key functional modules that serve as the foundation for the PawConnect 
+platform.  
+14.1 Manage user Authentication Introduction:  
+• Manages user registration and login, verifies user identity, and provides secure access to 
+the application based on user roles.   
+Inputs:  
+• User registration details (Name, Email, Password) and login credentials (Email and 
+Password).   
+Processing:  
+• Validates user information, authenticates login credentials, identifies the user role (User 
+or Admin), and grants appropriate access to the system.   
+--- Page 7 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+  
+ 
+UCC-MCA    7                                  
+  
+  
+Outputs:  
+• Successful login, secure access to the appropriate dashboard, or an error message if the 
+credentials are invalid.  
+14.2 Manage user profile  
+• Introduction: Manages user profiles, account settings, pet listings, and adoption records.  
+• Inputs: User profile details, account updates, pet listing information, and adoption requests.  
+• Processing: Updates user information, manages personal pet listings, and maintains adoption 
+history.  
+• Outputs: Updated user profiles, account information, pet listing records, and adoption history.  
+14.3 Manage pet listing  
+• Introduction: Manages pet listings by allowing users to add, update, view, and remove pets 
+available for adoption.  
+• Inputs: Pet details, images, and listing updates.  
+• Processing: Stores, updates, and manages pet information while maintaining the status of each 
+listing.  
+• Outputs: Published pet listings, updated pet information, and current adoption status.  
+Search and Discover pets  
+• Introduction: Enables users to search and browse pets available for adoption using search and 
+filtering options.  
+• Inputs: Search keywords and filter criteria such as pet type, breed, location, age, and gender.  
+• Processing: Searches available pet listings and filters results based on the selected criteria..  
+• Outputs: A list of matching pet listings with relevant details.  
+Manage pet adoption  
+• Introduction: Manages the adoption process by allowing users to submit, review, and track pet 
+adoption requests.  
+• Inputs: Adoption requests and owner decisions (accept or reject).  
+• Processing: Records adoption requests, updates their status, and manages the adoption process.  
+--- Page 8 ---
+PawConnect Project Document                      SOFTWARE REQUIREMENT SPECIFICATION (SRS)  
+  
+ 
+UCC-MCA    8                                  
+• Outputs: Updated adoption request status and completed adoption records.  
+  
+  
+Manage user communication  
+• Introduction : communication between pet owners and adopters during the adoption process.  
+• Inputs: Messages sent by users.  
+• Processing: Stores, delivers, and maintains conversations between users.  
+• Outputs: Chat conversations, message notifications, and message history.  
+Manage Platform Administration  
+• Introduction: Manages the overall platform by monitoring users, pet listings, and reported 
+activities.  
+• Inputs: User information, pet listings, reports, and administrative actions.  
+• Processing: Reviews user accounts and pet listings, manages reported content, and oversees 
+platform activities..  
+• Outputs: Updated user accounts, approved or removed pet listings, resolved reports, and 
+platform summary information.  
+  
+  
+  

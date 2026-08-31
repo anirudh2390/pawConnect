@@ -1,0 +1,431 @@
+{
+  "info": {
+    "_postman_id": "pawconnect-api-v1",
+    "name": "PawConnect API",
+    "description": "Complete Postman collection for the PawConnect pet adoption platform API.\n\nBase URL: {{baseUrl}}\n\nSet up environment variables:\n- baseUrl: http://localhost:5000/api\n- token: (paste your JWT after login)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api", "type": "string" },
+    { "key": "token",   "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"TestPass123!\",\n  \"phone\": \"9876543210\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) { pm.collectionVariables.set('token', json.token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"TestPass123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/auth/forgot-password", "host": ["{{baseUrl}}"], "path": ["auth", "forgot-password"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"test@example.com\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pets",
+      "item": [
+        {
+          "name": "Browse Pets (Public)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/pets?page=1&limit=9&sort=newest",
+              "host": ["{{baseUrl}}"],
+              "path": ["pets"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "9" },
+                { "key": "sort", "value": "newest" },
+                { "key": "search", "value": "", "disabled": true },
+                { "key": "type", "value": "Dog", "disabled": true },
+                { "key": "gender", "value": "Male", "disabled": true },
+                { "key": "ageRange", "value": "Puppy", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Pet by ID (Public)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/pets/:id", "host": ["{{baseUrl}}"], "path": ["pets", ":id"], "variable": [{ "key": "id", "value": "PASTE_PET_ID_HERE" }] }
+          }
+        },
+        {
+          "name": "Create Pet (Auth)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/pets", "host": ["{{baseUrl}}"], "path": ["pets"] },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "name", "value": "Buddy", "type": "text" },
+                { "key": "type", "value": "Dog", "type": "text" },
+                { "key": "breed", "value": "Labrador", "type": "text" },
+                { "key": "age[number]", "value": "2", "type": "text" },
+                { "key": "age[unit]", "value": "years", "type": "text" },
+                { "key": "gender", "value": "Male", "type": "text" },
+                { "key": "size", "value": "Large", "type": "text" },
+                { "key": "vaccinationStatus", "value": "Fully", "type": "text" },
+                { "key": "neutered", "value": "false", "type": "text" },
+                { "key": "description", "value": "Friendly and energetic Labrador.", "type": "text" },
+                { "key": "location[city]", "value": "Mumbai", "type": "text" },
+                { "key": "location[state]", "value": "Maharashtra", "type": "text" },
+                { "key": "images", "type": "file", "src": [] }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Listings (Auth)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/pets/user/listings", "host": ["{{baseUrl}}"], "path": ["pets", "user", "listings"] }
+          }
+        },
+        {
+          "name": "Update Pet (Auth)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/pets/:id", "host": ["{{baseUrl}}"], "path": ["pets", ":id"], "variable": [{ "key": "id", "value": "PASTE_PET_ID" }] },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "description", "value": "Updated description.", "type": "text" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Pet (Auth)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/pets/:id", "host": ["{{baseUrl}}"], "path": ["pets", ":id"], "variable": [{ "key": "id", "value": "PASTE_PET_ID" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Adoptions",
+      "item": [
+        {
+          "name": "Submit Adoption Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/adoptions", "host": ["{{baseUrl}}"], "path": ["adoptions"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"petId\": \"PASTE_PET_ID\",\n  \"message\": \"I would love to adopt this pet!\",\n  \"housingType\": \"Apartment\",\n  \"hasYard\": false,\n  \"otherPets\": false,\n  \"experience\": \"I have had dogs before.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Sent Requests",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/adoptions/sent", "host": ["{{baseUrl}}"], "path": ["adoptions", "sent"] }
+          }
+        },
+        {
+          "name": "Get Received Requests (Owner)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/adoptions/received", "host": ["{{baseUrl}}"], "path": ["adoptions", "received"] }
+          }
+        },
+        {
+          "name": "Cancel Request",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/adoptions/:id/cancel", "host": ["{{baseUrl}}"], "path": ["adoptions", ":id", "cancel"], "variable": [{ "key": "id", "value": "PASTE_ADOPTION_ID" }] }
+          }
+        },
+        {
+          "name": "Respond to Request (Owner)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/adoptions/:id/respond", "host": ["{{baseUrl}}"], "path": ["adoptions", ":id", "respond"], "variable": [{ "key": "id", "value": "PASTE_ADOPTION_ID" }] },
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"Approved\",\n  \"adminNote\": \"Great match!\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "List My Rooms",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/chats/rooms", "host": ["{{baseUrl}}"], "path": ["chats", "rooms"] }
+          }
+        },
+        {
+          "name": "Get Unread Count",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/chats/unread-count", "host": ["{{baseUrl}}"], "path": ["chats", "unread-count"] }
+          }
+        },
+        {
+          "name": "Get or Create Room",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/chats/rooms", "host": ["{{baseUrl}}"], "path": ["chats", "rooms"] },
+            "body": { "mode": "raw", "raw": "{\n  \"otherUserId\": \"PASTE_OTHER_USER_ID\"\n}" }
+          }
+        },
+        {
+          "name": "Get Room Messages",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/chats/rooms/:roomId/messages?page=1&limit=30",
+              "host": ["{{baseUrl}}"],
+              "path": ["chats", "rooms", ":roomId", "messages"],
+              "query": [{ "key": "page", "value": "1" }, { "key": "limit", "value": "30" }],
+              "variable": [{ "key": "roomId", "value": "PASTE_ROOM_ID" }]
+            }
+          }
+        },
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/chats/rooms/:roomId/messages", "host": ["{{baseUrl}}"], "path": ["chats", "rooms", ":roomId", "messages"], "variable": [{ "key": "roomId", "value": "PASTE_ROOM_ID" }] },
+            "body": { "mode": "raw", "raw": "{\n  \"content\": \"Hello! I'm interested in adopting your pet.\"\n}" }
+          }
+        },
+        {
+          "name": "Mark Room as Read",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/chats/rooms/:roomId/read", "host": ["{{baseUrl}}"], "path": ["chats", "rooms", ":roomId", "read"], "variable": [{ "key": "roomId", "value": "PASTE_ROOM_ID" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Profile",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/users/profile", "host": ["{{baseUrl}}"], "path": ["users", "profile"] }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/users/profile", "host": ["{{baseUrl}}"], "path": ["users", "profile"] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Name\",\n  \"bio\": \"Pet lover based in Mumbai.\",\n  \"phone\": \"9876543210\",\n  \"location\": \"Mumbai, Maharashtra\"\n}" }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/users/profile/password", "host": ["{{baseUrl}}"], "path": ["users", "profile", "password"] },
+            "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"OldPass123!\",\n  \"newPassword\": \"NewPass456!\"\n}" }
+          }
+        },
+        {
+          "name": "Get My Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/users/profile/stats", "host": ["{{baseUrl}}"], "path": ["users", "profile", "stats"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Pet Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/pets/stats", "host": ["{{baseUrl}}"], "path": ["admin", "pets", "stats"] }
+          }
+        },
+        {
+          "name": "Get Pending Pets",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/pets/pending", "host": ["{{baseUrl}}"], "path": ["admin", "pets", "pending"] }
+          }
+        },
+        {
+          "name": "Approve Pet",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/pets/:id/approve", "host": ["{{baseUrl}}"], "path": ["admin", "pets", ":id", "approve"], "variable": [{ "key": "id", "value": "PASTE_PET_ID" }] }
+          }
+        },
+        {
+          "name": "Reject Pet",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/pets/:id/reject", "host": ["{{baseUrl}}"], "path": ["admin", "pets", ":id", "reject"], "variable": [{ "key": "id", "value": "PASTE_PET_ID" }] },
+            "body": { "mode": "raw", "raw": "{\n  \"adminNote\": \"Listing does not meet guidelines.\"\n}" }
+          }
+        },
+        {
+          "name": "Get User Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users/stats", "host": ["{{baseUrl}}"], "path": ["admin", "users", "stats"] }
+          }
+        },
+        {
+          "name": "List All Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users", "host": ["{{baseUrl}}"], "path": ["admin", "users"] }
+          }
+        },
+        {
+          "name": "Ban/Unban User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/users/:id/ban", "host": ["{{baseUrl}}"], "path": ["admin", "users", ":id", "ban"], "variable": [{ "key": "id", "value": "PASTE_USER_ID" }] },
+            "body": { "mode": "raw", "raw": "{\n  \"isBanned\": true\n}" }
+          }
+        },
+        {
+          "name": "List All Reports",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/reports", "host": ["{{baseUrl}}"], "path": ["admin", "reports"] }
+          }
+        },
+        {
+          "name": "Submit Report (Any Auth User)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/reports", "host": ["{{baseUrl}}"], "path": ["admin", "reports"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetType\": \"Pet\",\n  \"targetId\": \"PASTE_PET_ID\",\n  \"reason\": \"Spam\",\n  \"description\": \"This listing appears to be fake.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Resolve Report",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/reports/:id/resolve", "host": ["{{baseUrl}}"], "path": ["admin", "reports", ":id", "resolve"], "variable": [{ "key": "id", "value": "PASTE_REPORT_ID" }] },
+            "body": { "mode": "raw", "raw": "{\n  \"adminNote\": \"Reviewed and resolved.\"\n}" }
+          }
+        }
+      ]
+    }
+  ]
+}
