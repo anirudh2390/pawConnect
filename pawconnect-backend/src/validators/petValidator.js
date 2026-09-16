@@ -33,7 +33,7 @@ const petCreateSchema = Joi.object({
     description: Joi.string().trim().max(2000).optional().allow(''),
     location: Joi.object({
         city: Joi.string().required().trim(),
-        state: Joi.string().trim().optional(),
+        state: Joi.string().trim().optional().allow(''),
     }).required().messages({
         'object.base': 'Location must include city and optionally state',
         'any.required': 'Location is required',
@@ -58,20 +58,43 @@ const petUpdateSchema = Joi.object({
     description: Joi.string().trim().max(2000).optional().allow(''),
     location: Joi.object({
         city: Joi.string().trim().optional(),
-        state: Joi.string().trim().optional(),
+        state: Joi.string().trim().optional().allow(''),
     }).optional(),
 }).unknown(true);
+
+/**
+ * Helper function to parse JSON fields
+ */
+const parseJsonFields = (body) => {
+    const parsedBody = { ...body };
+    try {
+        if (typeof parsedBody.age === 'string') {
+            parsedBody.age = JSON.parse(parsedBody.age);
+        }
+        if (typeof parsedBody.location === 'string') {
+            parsedBody.location = JSON.parse(parsedBody.location);
+        }
+    } catch (e) {
+        // Leave them as strings, let Joi validation fail if parsing fails
+    }
+    return parsedBody;
+};
 
 /**
  * Middleware to validate pet creation request
  */
 const validatePetCreate = (req, res, next) => {
+    req.body = parseJsonFields(req.body);
     const { error, value } = petCreateSchema.validate(req.body);
     if (error) {
         const errors = {};
         error.details.forEach((detail) => {
             errors[detail.context.key] = detail.message;
         });
+        const fs = require('fs');
+        fs.writeFileSync('validation_error_debug.json', JSON.stringify({ errors, body: req.body }, null, 2));
+        console.log('Validation errors for pet creation:', errors);
+        console.log('Parsed req.body:', req.body);
         return res.status(400).json({
             status: 'error',
             statusCode: 400,
@@ -87,6 +110,7 @@ const validatePetCreate = (req, res, next) => {
  * Middleware to validate pet update request
  */
 const validatePetUpdate = (req, res, next) => {
+    req.body = parseJsonFields(req.body);
     const { error, value } = petUpdateSchema.validate(req.body);
     if (error) {
         const errors = {};

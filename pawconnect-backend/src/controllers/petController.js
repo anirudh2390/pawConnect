@@ -54,7 +54,7 @@ const createPet = async (req, res, next) => {
             name: name.trim(),
             type,
             breed: breed.trim(),
-            age: age ? JSON.parse(age) : { number: null, unit: 'Years' },
+            age: age ? (typeof age === 'string' ? JSON.parse(age) : age) : { number: null, unit: 'Years' },
             gender,
             size,
             vaccinationStatus: vaccinationStatus || 'None',
@@ -367,7 +367,7 @@ const updatePet = async (req, res, next) => {
         if (name) pet.name = name.trim();
         if (type) pet.type = type;
         if (breed) pet.breed = breed.trim();
-        if (age) pet.age = JSON.parse(age);
+        if (age) pet.age = typeof age === 'string' ? JSON.parse(age) : age;
         if (gender) pet.gender = gender;
         if (size) pet.size = size;
         if (vaccinationStatus !== undefined) pet.vaccinationStatus = vaccinationStatus;

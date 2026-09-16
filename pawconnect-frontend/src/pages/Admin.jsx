@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row, Col, Card, Table, Button, Badge, Spinner, Alert, Modal, Form, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Button, Badge, Spinner, Alert, Modal, Form, Nav, Carousel } from 'react-bootstrap';
 import api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 
@@ -796,13 +796,29 @@ export const Admin = () => {
                     <Modal.Body style={{ backgroundColor: '#1E1E1E', color: '#fff', maxHeight: '70vh', overflowY: 'auto' }}>
                         {selectedPet && (
                             <>
-                                {selectedPet.imageUrls?.[0] && (
+                                {selectedPet.imageUrls?.length > 0 && (
                                     <div className="mb-4">
-                                        <img
-                                            src={selectedPet.imageUrls[0]}
-                                            alt={selectedPet.name}
-                                            style={{ width: '100%', maxHeight: '280px', objectFit: 'cover', borderRadius: '8px' }}
-                                        />
+                                        <Carousel
+                                            className="rounded"
+                                            style={{ border: '1px solid var(--paw-border)' }}
+                                        >
+                                            {selectedPet.imageUrls.map((img, idx) => (
+                                                <Carousel.Item key={idx}>
+                                                    <div 
+                                                        style={{ height: '300px', backgroundColor: '#141414', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} 
+                                                        onClick={() => window.open(img, '_blank')}
+                                                        title="Click to view full size"
+                                                    >
+                                                        <img
+                                                            src={img}
+                                                            alt={`${selectedPet.name} ${idx + 1}`}
+                                                            style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                                                        />
+                                                    </div>
+                                                </Carousel.Item>
+                                            ))}
+                                        </Carousel>
+                                        <div className="text-secondary small mt-2 text-center">Click image to view full dimensions</div>
                                     </div>
                                 )}
                                 <Row className="g-3 small mb-4">

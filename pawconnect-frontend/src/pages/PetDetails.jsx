@@ -200,8 +200,11 @@ export const PetDetails = () => {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                overflow: 'hidden'
+                                                overflow: 'hidden',
+                                                cursor: 'pointer'
                                             }}
+                                            onClick={() => window.open(image, '_blank')}
+                                            title="Click to view full size"
                                         >
                                             <img
                                                 src={image}
