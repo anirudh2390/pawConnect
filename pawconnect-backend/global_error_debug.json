@@ -1,0 +1,5 @@
+{
+  "message": "\"[object Object]\" is not valid JSON",
+  "stack": "SyntaxError: \"[object Object]\" is not valid JSON\n    at JSON.parse (<anonymous>)\n    at createPet (C:\\Users\\aniru\\pawConnect\\pawconnect-backend\\src\\controllers\\petController.js:57:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "name": "SyntaxError"
+}

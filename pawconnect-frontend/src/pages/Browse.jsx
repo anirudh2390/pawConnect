@@ -95,7 +95,7 @@ export const Browse = () => {
     const typeColors = { Dog: '#E07A2F', Cat: '#a855f7', Other: '#3b82f6' };
 
     return (
-        <Container className="py-5">
+        <Container className="py-4">
             {/* Page header */}
             <div className="mb-4">
                 <div className="paw-script">*discover*</div>

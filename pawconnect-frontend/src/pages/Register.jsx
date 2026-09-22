@@ -95,7 +95,7 @@ export const Register = () => {
     };
 
     return (
-        <Container className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: '80vh' }}>
+        <Container className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: 'calc(100vh - 140px)' }}>
             <Card className="paw-card p-4 p-sm-5 ms-shadow d-fade-in" style={{ width: '100%', maxWidth: '480px' }}>
                 <div className="mb-4">
                     <div className="paw-script">*join community*</div>

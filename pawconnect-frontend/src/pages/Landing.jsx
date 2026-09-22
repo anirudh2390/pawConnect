@@ -39,19 +39,6 @@ export const Landing = () => {
                             </Button>
                         </div>
 
-                        {/* Slide counter */}
-                        <div className="d-flex align-items-center gap-3 mt-5">
-                            <span className="fw-bold text-white fs-6">02<span className="text-muted fw-normal" style={{ fontSize: '0.85rem' }}>/04</span></span>
-                            <div className="d-flex gap-2">
-                                {[0, 1, 2, 3].map(i => (
-                                    <span
-                                        key={i}
-                                        className="rounded-circle"
-                                        style={{ width: '6px', height: '6px', backgroundColor: i === 1 ? 'var(--paw-primary)' : '#555' }}
-                                    />
-                                ))}
-                            </div>
-                        </div>
                     </Col>
 
                     <Col lg={5} className="d-flex justify-content-center">
@@ -59,24 +46,27 @@ export const Landing = () => {
                             className="position-relative"
                             style={{ width: '100%', maxWidth: '400px', aspectRatio: '1/1' }}
                         >
-                            {/* Decorative ring */}
+                            {/* Decorative ring with Image */}
                             <div
-                                className="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center"
+                                className="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center position-relative overflow-hidden"
                                 style={{
-                                    background: 'radial-gradient(circle at 35% 35%, #2a1a0e 0%, #0a0a0a 75%)',
-                                    border: '1px solid #2a1810',
-                                    boxShadow: '0 0 60px rgba(224, 122, 47, 0.08)',
+                                    background: '#0a0a0a',
+                                    border: '1px solid rgba(224, 122, 47, 0.3)',
+                                    boxShadow: '0 0 60px rgba(224, 122, 47, 0.15)',
                                 }}
                             >
-                                <div className="text-center">
-                                    {/* Multiple paw emoji in a decorative arrangement */}
-                                    <div style={{ fontSize: '5rem', lineHeight: 1, filter: 'drop-shadow(0 4px 12px rgba(224,122,47,0.3))' }}>🐾</div>
-                                    <div className="mt-3" style={{ fontSize: '1.5rem', opacity: 0.6, letterSpacing: '0.5rem' }}>🐶 🐱 🐰</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=800&q=80"
+                                    alt="Cat and dog cuddling"
+                                    className="w-100 h-100 position-absolute"
+                                    style={{ objectFit: 'cover', opacity: 0.85, top: 0, left: 0 }}
+                                />
+                                <div className="position-absolute text-center" style={{ bottom: '15%', zIndex: 2 }}>
                                     <div
-                                        className="mt-3 px-3 py-1 rounded-pill"
-                                        style={{ backgroundColor: 'rgba(224,122,47,0.15)', border: '1px solid rgba(224,122,47,0.3)', display: 'inline-block' }}
+                                        className="px-3 py-1 rounded-pill"
+                                        style={{ backgroundColor: 'rgba(10, 10, 10, 0.65)', border: '1px solid rgba(224, 122, 47, 0.5)', display: 'inline-block', backdropFilter: 'blur(4px)' }}
                                     >
-                                        <span style={{ color: 'var(--paw-primary)', fontSize: '0.8rem', fontWeight: 600 }}>Find your companion</span>
+                                        <span style={{ color: 'var(--paw-primary)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.5px' }}>Find your companion</span>
                                     </div>
                                 </div>
                             </div>

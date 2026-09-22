@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const User = require('../models/User');
+const sendEmail = require('../utils/sendEmail');
+
 
 // Helper to sign JWT token
 const signToken = (userId, role) => {
@@ -167,15 +170,38 @@ const forgotPassword = async (req, res, next) => {
             });
         }
 
-        // Stub layout response for forgot password instructions recovery
-        res.status(200).json({
-            status: 'success',
-            message: 'Reset password instructions dispatched to email inbox',
-            data: {
-                email,
-                resetToken: 'stub_reset_token_xxx_123' // Mock reset key
-            }
-        });
+        // Get reset token
+        const resetToken = user.getResetPasswordToken();
+
+        await user.save({ validateBeforeSave: false });
+
+        // Create reset url
+        const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+
+        const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: 'Password reset token',
+                message,
+            });
+
+            res.status(200).json({
+                status: 'success',
+                message: 'Reset password instructions dispatched to email inbox',
+            });
+        } catch (err) {
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpire = undefined;
+            await user.save({ validateBeforeSave: false });
+
+            return res.status(500).json({
+                status: 'error',
+                statusCode: 500,
+                message: 'Email could not be sent',
+            });
+        }
     } catch (error) {
         next(error);
     }
@@ -187,8 +213,18 @@ const forgotPassword = async (req, res, next) => {
 const resetPassword = async (req, res, next) => {
     const { token, newPassword } = req.body;
     try {
-        // Stub implementation verifying mock token
-        if (token !== 'stub_reset_token_xxx_123') {
+        // Get hashed token
+        const resetPasswordToken = crypto
+            .createHash('sha256')
+            .update(token)
+            .digest('hex');
+
+        const user = await User.findOne({
+            resetPasswordToken,
+            resetPasswordExpire: { $gt: Date.now() },
+        });
+
+        if (!user) {
             return res.status(400).json({
                 status: 'error',
                 statusCode: 400,
@@ -196,10 +232,15 @@ const resetPassword = async (req, res, next) => {
             });
         }
 
-        // Simple demo locate or update
+        // Set new password
+        user.passwordHash = newPassword;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+        await user.save();
+
         res.status(200).json({
             status: 'success',
-            message: 'Password security code updated successfully. Clean sessions.',
+            message: 'Password updated successfully. You can now login.',
         });
     } catch (error) {
         next(error);

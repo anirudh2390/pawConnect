@@ -22,6 +22,7 @@ const Admin = lazy(() => import('../pages/Admin'));
 const Profile = lazy(() => import('../pages/Profile'));
 const Forbidden = lazy(() => import('../pages/Forbidden'));
 const ServerError = lazy(() => import('../pages/ServerError'));
+const ResetPassword = lazy(() => import('../pages/ResetPassword'));
 
 // ── Page transition wrapper ────────────────────────────────────────────────
 const PageTransition = ({ children }) => (
@@ -81,6 +82,7 @@ export const router = createBrowserRouter([
             { index: true, element: <PageTransition><Landing /></PageTransition> },
             { path: 'login', element: <PageTransition><Login /></PageTransition> },
             { path: 'register', element: <PageTransition><Register /></PageTransition> },
+            { path: 'reset-password/:token', element: <LazyPage element={<ResetPassword />} /> },
             { path: 'browse', element: <LazyPage element={<Browse />} /> },
             { path: 'pet/:id', element: <LazyPage element={<PetDetails />} /> },
             { path: 'contact', element: <LazyPage element={<Contact />} /> },

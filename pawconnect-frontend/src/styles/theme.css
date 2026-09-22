@@ -8,34 +8,34 @@
 /* ─── Design Tokens ─────────────────────────────────────────────────────── */
 :root {
   /* Background layers */
-  --paw-bg-deep: #090909;
-  --paw-bg-card: #111111;
-  --paw-bg-surface: #161616;
-  --paw-bg-input: #1C1C1C;
-  --paw-bg-hover: rgba(255, 255, 255, 0.04);
+  --paw-bg-deep: #0D1611; /* Deep forest green */
+  --paw-bg-card: rgba(18, 28, 22, 0.65); /* Semi-transparent dark green/brown for glassmorphism */
+  --paw-bg-surface: rgba(22, 35, 27, 0.7);
+  --paw-bg-input: rgba(10, 18, 14, 0.6);
+  --paw-bg-hover: rgba(255, 255, 255, 0.08);
 
   /* Brand colours */
-  --paw-primary: #E07A2F;
-  --paw-primary-hover: #F0924F;
-  --paw-primary-muted: rgba(224, 122, 47, 0.12);
-  --paw-primary-rgb: 224, 122, 47;
-  --paw-accent: #a855f7;
+  --paw-primary: #C98A4B; /* Earthy warm brown/orange */
+  --paw-primary-hover: #E6A868;
+  --paw-primary-muted: rgba(201, 138, 75, 0.15);
+  --paw-primary-rgb: 201, 138, 75;
+  --paw-accent: #7EA172; /* Sage green accent */
 
   /* Semantic colours */
-  --paw-success: #22c55e;
-  --paw-danger: #ef4444;
-  --paw-warning: #f59e0b;
-  --paw-info: #3b82f6;
+  --paw-success: #4ADE80;
+  --paw-danger: #F87171;
+  --paw-warning: #FBBF24;
+  --paw-info: #60A5FA;
 
   /* Text */
-  --paw-text-primary: #FFFFFF;
-  --paw-text-secondary: #9ca3af;
-  --paw-text-muted: #525252;
+  --paw-text-primary: #F3F4F1; /* Warm white */
+  --paw-text-secondary: #A3B1A8; /* Muted greenish grey */
+  --paw-text-muted: #6B7B71;
 
   /* Borders */
-  --paw-border: #1f1f1f;
-  --paw-border-light: #2a2a2a;
-  --paw-border-active: #444444;
+  --paw-border: rgba(255, 255, 255, 0.1);
+  --paw-border-light: rgba(255, 255, 255, 0.15);
+  --paw-border-active: rgba(201, 138, 75, 0.4);
 
   /* Font stacks */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -47,15 +47,15 @@
   --paw-transition-lg: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   /* Shadows */
-  --paw-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --paw-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --paw-shadow-glow: 0 12px 40px rgba(224, 122, 47, 0.18);
-  --paw-shadow-card: 0 4px 20px rgba(0, 0, 0, 0.6);
+  --paw-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --paw-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --paw-shadow-glow: 0 12px 40px rgba(201, 138, 75, 0.2);
+  --paw-shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
 
   /* Radii */
-  --paw-radius-sm: 6px;
-  --paw-radius-card: 14px;
-  --paw-radius-input: 8px;
+  --paw-radius-sm: 8px;
+  --paw-radius-card: 16px;
+  --paw-radius-input: 10px;
   --paw-radius-pill: 100px;
 }
 
@@ -117,6 +117,8 @@ body {
 /* ─── Cards ──────────────────────────────────────────────────────────────── */
 .paw-card {
   background-color: var(--paw-bg-card) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--paw-border) !important;
   border-radius: var(--paw-radius-card) !important;
   color: var(--paw-text-primary) !important;
@@ -134,6 +136,8 @@ body {
 /* Pet listing card variant */
 .paw-pet-card {
   background-color: var(--paw-bg-card) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--paw-border) !important;
   border-radius: var(--paw-radius-card) !important;
   color: var(--paw-text-primary) !important;
@@ -168,7 +172,9 @@ body {
 
 /* Stat card */
 .paw-stat-card {
-  background: linear-gradient(135deg, var(--paw-bg-surface) 0%, var(--paw-bg-card) 100%);
+  background: linear-gradient(135deg, rgba(22, 35, 27, 0.7) 0%, rgba(18, 28, 22, 0.6) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--paw-border) !important;
   border-radius: var(--paw-radius-card) !important;
   padding: 1.5rem;

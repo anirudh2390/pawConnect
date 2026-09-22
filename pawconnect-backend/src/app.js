@@ -12,6 +12,7 @@ const petRoutes = require('./routes/petRoutes');
 const adoptionRoutes = require('./routes/adoptionRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const chatbotRoutes = require('./routes/chatbotRoutes');
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.use('/api/pets', petRoutes);
 app.use('/api/adoptions', adoptionRoutes);
 app.use('/api/chats', chatRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 // Base Checkpoint
 app.get('/', (req, res) => {
