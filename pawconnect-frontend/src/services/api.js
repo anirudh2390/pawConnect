@@ -25,9 +25,30 @@ api.interceptors.request.use(
     }
 );
 
-// Global response interceptor (handling session timeouts/clearing invalid JWT)
+// Helper to convert any localhost:5000/uploads URLs to relative /uploads so they load from frontend CDN
+const sanitizeUploadUrls = (data) => {
+    if (!data || typeof data !== 'object') return data;
+    if (Array.isArray(data)) {
+        return data.map((item) => sanitizeUploadUrls(item));
+    }
+    for (const key of Object.keys(data)) {
+        if (typeof data[key] === 'string' && data[key].includes('localhost:5000/uploads/')) {
+            data[key] = data[key].substring(data[key].indexOf('/uploads/'));
+        } else if (typeof data[key] === 'object' && data[key] !== null) {
+            data[key] = sanitizeUploadUrls(data[key]);
+        }
+    }
+    return data;
+};
+
+// Global response interceptor (handling session timeouts and auto-normalizing upload URLs)
 api.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        if (response.data) {
+            response.data = sanitizeUploadUrls(response.data);
+        }
+        return response;
+    },
     (error) => {
         if (error.response && error.response.status === 401) {
             console.warn('Unauthorized request intercepted. Expiring local session keys.');

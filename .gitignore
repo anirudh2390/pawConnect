@@ -40,8 +40,10 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Uploads (local media storage - use Cloudinary in production)
-uploads/
+# Uploads (local backend temp uploads - kept uncommitted; frontend public uploads are tracked)
+pawconnect-backend/uploads/
+!pawconnect-frontend/public/uploads/
+!pawconnect-frontend/public/uploads/**
 
 # Typescript
 *.tsbuildinfo
