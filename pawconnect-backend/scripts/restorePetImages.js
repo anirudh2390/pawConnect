@@ -34,10 +34,28 @@ async function restore() {
             if (images) {
                 await petsCol.updateOne({ _id: pet._id }, { $set: { imageUrls: images } });
                 console.log(`✅ Restored images for: ${pet.name} (${pet.breed})`);
+            } else if (pet.imageUrls && pet.imageUrls.some(u => typeof u === 'string' && u.includes('localhost:5000'))) {
+                // If pet is not in explicit dictionary but has localhost URL, assign breed/type fallback
+                const isCat = (pet.type || '').toLowerCase() === 'cat';
+                const fallbackUrl = isCat
+                    ? 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80'
+                    : 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80';
+                await petsCol.updateOne({ _id: pet._id }, { $set: { imageUrls: [fallbackUrl] } });
+                console.log(`✅ Updated localhost URL with type-safe image for: ${pet.name}`);
             }
         }
 
-        console.log('\n🎉 Finished restoring high quality pet photos!');
+        // Also fix any user profile pictures referencing localhost:5000
+        const usersCol = conn.connection.db.collection('users');
+        const userResult = await usersCol.updateMany(
+            { 'profilePicture.url': { $regex: 'localhost:5000' } },
+            { $set: { 'profilePicture.url': 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80' } }
+        );
+        if (userResult.modifiedCount > 0) {
+            console.log(`✅ Updated ${userResult.modifiedCount} user avatar(s) with cloud CDN image.`);
+        }
+
+        console.log('\n🎉 Finished restoring high quality pet photos and avatars!');
         process.exit(0);
     } catch (err) {
         console.error('Error restoring images:', err);
