@@ -214,6 +214,10 @@ export const PetDetails = () => {
                                                     maxHeight: '100%',
                                                     objectFit: 'contain'
                                                 }}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80';
+                                                }}
                                             />
                                         </div>
                                     </Carousel.Item>

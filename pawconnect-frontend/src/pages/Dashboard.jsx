@@ -383,7 +383,8 @@ export const Dashboard = () => {
                                                                 <div className="d-flex align-items-center gap-2">
                                                                     {pet.imageUrls?.[0] && (
                                                                         <img src={pet.imageUrls[0]} alt={pet.name}
-                                                                            style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover' }} />
+                                                                            style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover' }}
+                                                                            onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=100&q=80'; }} />
                                                                     )}
                                                                     <strong className="text-white">{pet.name}</strong>
                                                                 </div>

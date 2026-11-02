@@ -18,6 +18,12 @@
  */
 
 require('dotenv').config();
+const dns = require('dns');
+try {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+    // Keep system defaults if custom servers fail to set
+}
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -55,67 +61,63 @@ const SAMPLE_USERS = [
 
 const buildSamplePets = (ownerId) => [
     {
-        owner: ownerId,
+        listerId: ownerId,
         name: 'Max',
         type: 'Dog',
         breed: 'Labrador Retriever',
-        age: { number: 2, unit: 'years' },
+        age: { number: 2, unit: 'Years' },
         gender: 'Male',
         size: 'Large',
         vaccinationStatus: 'Fully',
-        neutered: false,
+        medicalHistory: 'None',
         description: 'Max is an energetic and friendly Labrador who loves to play fetch. He is great with kids and very well trained. Looking for an active family that can give him plenty of outdoor exercise.',
         location: { city: 'Delhi', state: 'Delhi' },
         imageUrls: ['https://images.dog.ceo/breeds/labrador/n02099712_1448.jpg'],
-        imagePublicIds: ['sample_max_1'],
         status: 'Approved',
     },
     {
-        owner: ownerId,
+        listerId: ownerId,
         name: 'Luna',
         type: 'Cat',
         breed: 'Persian',
-        age: { number: 3, unit: 'years' },
+        age: { number: 3, unit: 'Years' },
         gender: 'Female',
         size: 'Medium',
         vaccinationStatus: 'Fully',
-        neutered: true,
+        medicalHistory: 'None',
         description: 'Luna is a beautiful, calm Persian cat who loves cuddles and nap time. She is litter trained and does well in apartments. Ideal for a quiet household.',
         location: { city: 'Bangalore', state: 'Karnataka' },
         imageUrls: ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cat_November_2010-1a.jpg/320px-Cat_November_2010-1a.jpg'],
-        imagePublicIds: ['sample_luna_1'],
         status: 'Approved',
     },
     {
-        owner: ownerId,
+        listerId: ownerId,
         name: 'Bruno',
         type: 'Dog',
         breed: 'Beagle',
-        age: { number: 8, unit: 'months' },
+        age: { number: 8, unit: 'Months' },
         gender: 'Male',
         size: 'Small',
         vaccinationStatus: 'Partially',
-        neutered: false,
+        medicalHistory: 'None',
         description: 'Bruno is a playful puppy who is still being trained. He is curious, friendly, and looking for a patient family who can continue his training journey.',
         location: { city: 'Hyderabad', state: 'Telangana' },
         imageUrls: [],
-        imagePublicIds: [],
         status: 'Pending',
     },
     {
-        owner: ownerId,
+        listerId: ownerId,
         name: 'Mia',
         type: 'Cat',
         breed: 'Siamese Mix',
-        age: { number: 5, unit: 'years' },
+        age: { number: 5, unit: 'Years' },
         gender: 'Female',
         size: 'Small',
         vaccinationStatus: 'Fully',
-        neutered: true,
+        medicalHistory: 'None',
         description: 'Mia is an independent and elegant cat who prefers a calm environment. She is very healthy and up-to-date on all vaccinations. Perfect for working professionals.',
         location: { city: 'Chennai', state: 'Tamil Nadu' },
         imageUrls: [],
-        imagePublicIds: [],
         status: 'Approved',
     },
 ];
@@ -145,7 +147,7 @@ async function seed() {
         if (!ownerUser) {
             console.log('⚠️  Could not find seed owner user — skipping pet seed.');
         } else {
-            const existingPets = await Pet.countDocuments({ owner: ownerUser._id });
+            const existingPets = await Pet.countDocuments({ listerId: ownerUser._id });
             if (existingPets > 0) {
                 console.log('ℹ️  Sample pets already exist. Skipping pet seed.');
             } else {

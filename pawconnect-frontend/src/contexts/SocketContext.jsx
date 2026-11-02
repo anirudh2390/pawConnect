@@ -12,11 +12,12 @@ export const SocketProvider = ({ children }) => {
         let socketInstance = null;
 
         if (token) {
-            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+            const rawBackendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+            const cleanBackendUrl = rawBackendUrl.replace(/\/api\/?$/, '').replace(/\/+$/, '');
 
-            socketInstance = io(backendUrl, {
+            socketInstance = io(cleanBackendUrl, {
                 auth: { token },
-                transports: ['websocket'],
+                transports: ['websocket', 'polling'],
             });
 
             socketInstance.on('connect', () => {

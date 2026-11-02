@@ -99,10 +99,11 @@ const FloatingAIChatbot = () => {
                                     >
                                         <ReactMarkdown 
                                             components={{
-                                                p: ({node, ...props}) => <p style={{marginBottom: '0.5rem', '&:last-child': {marginBottom: 0}}} {...props} />,
+                                                p: ({node, ...props}) => <p style={{marginBottom: '0.5rem'}} {...props} />,
                                                 ul: ({node, ...props}) => <ul style={{marginBottom: '0.5rem', paddingLeft: '1.2rem'}} {...props} />,
                                                 ol: ({node, ...props}) => <ol style={{marginBottom: '0.5rem', paddingLeft: '1.2rem'}} {...props} />,
                                                 li: ({node, ...props}) => <li style={{marginBottom: '0.2rem'}} {...props} />,
+                                                a: ({node, ...props}) => <a style={{color: '#ff8a65', textDecoration: 'underline'}} target="_self" {...props} />,
                                             }}
                                         >
                                             {msg.text}

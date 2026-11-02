@@ -1,6 +1,21 @@
 const Pet = require('../models/Pet');
 const { uploadToCloudinary, deleteFromCloudinary } = require('../services/cloudinaryService');
 
+const safeParseJSON = (data, fallback = null) => {
+    if (!data) return fallback;
+    if (typeof data === 'object') return data;
+    if (typeof data === 'string') {
+        const trimmed = data.trim();
+        if (trimmed === '[object Object]' || trimmed === '') return fallback;
+        try {
+            return JSON.parse(trimmed);
+        } catch {
+            return fallback;
+        }
+    }
+    return fallback;
+};
+
 /**
  * @desc    Create a new pet listing
  * @route   POST /api/pets
@@ -54,14 +69,14 @@ const createPet = async (req, res, next) => {
             name: name.trim(),
             type,
             breed: breed.trim(),
-            age: age ? (typeof age === 'string' ? JSON.parse(age) : age) : { number: null, unit: 'Years' },
+            age: safeParseJSON(age, { number: null, unit: 'Years' }),
             gender,
             size,
             vaccinationStatus: vaccinationStatus || 'None',
             medicalHistory: medicalHistory ? medicalHistory.trim() : '',
             description: description ? description.trim() : '',
             imageUrls,
-            location: typeof location === 'string' ? JSON.parse(location) : location,
+            location: safeParseJSON(location, { city: '', state: '' }),
             status: 'Pending', // Default status for newly created listings
         });
 
@@ -367,13 +382,13 @@ const updatePet = async (req, res, next) => {
         if (name) pet.name = name.trim();
         if (type) pet.type = type;
         if (breed) pet.breed = breed.trim();
-        if (age) pet.age = typeof age === 'string' ? JSON.parse(age) : age;
+        if (age) pet.age = safeParseJSON(age, pet.age);
         if (gender) pet.gender = gender;
         if (size) pet.size = size;
         if (vaccinationStatus !== undefined) pet.vaccinationStatus = vaccinationStatus;
         if (medicalHistory !== undefined) pet.medicalHistory = medicalHistory.trim();
         if (description !== undefined) pet.description = description.trim();
-        if (location) pet.location = typeof location === 'string' ? JSON.parse(location) : location;
+        if (location) pet.location = safeParseJSON(location, pet.location);
         if (newImageUrls.length > 0) pet.imageUrls = newImageUrls;
 
         // Reset status to Pending for admin review (unless status is explicitly set to Adopted)
